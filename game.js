@@ -15,9 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function getBodyAtMouse() {
       mousePVec = new b2Vec2(mouseX, mouseY);
       var aabb = new b2AABB();
-      console.log(mouseX, mouseY);
-      aabb.lowerBound.Set(mouseX - 1000, mouseY - 1000);
-      aabb.upperBound.Set(mouseX + 1000, mouseY + 1000);
+      aabb.lowerBound.Set(mouseX - 0.001, mouseY - 0.001);
+      aabb.upperBound.Set(mouseX + 0.001, mouseY + 0.001);
 
       // Query the world for overlapping shapes.
 
@@ -76,16 +75,8 @@ document.addEventListener('DOMContentLoaded', function () {
       game.add.sprite(0, 0, 'ground');
 
       p = new Circle(game, game.world.centerX - 50, game.world.centerY - 50, 'red-player', 0.15, world, 0.6, 0.8, 0.6);
-  /*    var p = game.add.sprite(game.world.centerX - 50, game.world.centerY - 50, 'red-player');
-      ball.anchor.setTo(0.5, 0.5);
-      ball.scale.set(0.2, 0.2);
-  */
 
       b = new Circle(game, game.world.centerX, game.world.centerY, 'ball', 0.5, world, 0.4, 0.2, 0.4);
-  /*    var ball = game.add.sprite(game.world.centerX, game.world.centerY, 'ball');
-      ball.anchor.setTo(0.5, 0.5);
-      ball.scale.set(0.5, 0.5);    
-  */
 
       debugDraw = new b2DebugDraw();
       debugDraw.SetSprite(document.querySelector('#debug').getContext('2d'));
@@ -103,48 +94,22 @@ document.addEventListener('DOMContentLoaded', function () {
       if(isMouseDown && (!mouseJoint)) {
          var body = getBodyAtMouse();
          if(body) {
-            // var md = new b2MouseJointDef();
-            // md.bodyA = world.GetGroundBody();
-            // md.bodyB = body;
-            // md.target.Set(mouseX, mouseY);
-            // md.collideConnected = true;
-            // md.maxForce = 300.0 * body.GetMass();
             mouseJoint = true;
-            // mouseJoint = world.CreateJoint(md);
          }
       }
       
       if(mouseJoint) {
          if(isMouseDown) {
-            // mouseJoint.SetTarget(new b2Vec2(mouseX, mouseY));
          } else {
             if (selectedBody) {
                var bodyCenter = selectedBody.GetWorldCenter();
                selectedBody.ApplyImpulse(new b2Vec2((bodyCenter.x - mouseX) * 2, (bodyCenter.y - mouseY) * 2), bodyCenter)
                mouseX = undefined;
                mouseY = undefined;
-               // world.DestroyJoint(mouseJoint);
                mouseJoint = false;                     
             }
          }
       }
-   
-      // check if anybody is awake
-  /*    var hasAwake = false;
-      bodies.forEach(function (body) {
-
-         if (body.IsAwake()) {
-            hasAwake = true;
-         }
-  */    //    if (bodyV.x != 0 || bodyV.y != 0) {
-      //       targetX = Math.abs(bodyV.x) < 0.1 ? 0 : bodyV.x * 0.995;
-      //       targetY = Math.abs(bodyV.y) < 0.1 ? 0 : bodyV.y * 0.995;
-      //       console.log("decrease velocity",bodyV, {x:targetX, y:targetY});
-      //       body.SetLinearVelocity({x:targetX, y:targetY});
-      //    }
-  /*    });
-      console.log(hasAwake ? "wait for it" : "play");
-  */
 
       world.Step(1 / 60, 10, 10);
 
