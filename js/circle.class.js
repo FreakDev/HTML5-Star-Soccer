@@ -8,7 +8,7 @@
 
 
     function Circle (game, x, y, phaserImage, scale, world, radius, density, damping) {
-        
+
         var bodyDef = new b2BodyDef;
         var fixDef = new b2FixtureDef;
 

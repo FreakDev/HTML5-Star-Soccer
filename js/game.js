@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
       world = new b2World(
           new b2Vec2(0, 0)    // 0 gravity
           ,  true             // allow sleep
-      );        
+      );
 
       canvasPosition = getElementPosition(document.querySelector("canvas"));
 
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
             mouseJoint = true;
          }
       }
-      
+
       if(mouseJoint) {
          if(isMouseDown) {
          } else {
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
                selectedBody.ApplyImpulse(new b2Vec2((bodyCenter.x - mouseX) * 2, (bodyCenter.y - mouseY) * 2), bodyCenter)
                mouseX = undefined;
                mouseY = undefined;
-               mouseJoint = false;                     
+               mouseJoint = false;
             }
          }
       }
@@ -117,13 +117,13 @@ document.addEventListener('DOMContentLoaded', function () {
       b.update();
 
       world.DrawDebugData();
-      world.ClearForces();    
+      world.ClearForces();
   }
 
    //http://js-tut.aardon.de/js-tut/tutorial/position.html
    function getElementPosition(element) {
       var elem=element, tagname="", x=0, y=0;
-     
+
       while((typeof(elem) == "object") && (typeof(elem.tagName) != "undefined")) {
          y += elem.offsetTop;
          x += elem.offsetLeft;
