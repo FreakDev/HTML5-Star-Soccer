@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-  var world, game = new Phaser.Game(640, 480, Phaser.AUTO, "c", { preload: preload, create: create, update: update });
+  var world, game = new Phaser.Game(640, 480, Phaser.AUTO, "c", { preload: preload, create: create, update: update, render: render });
 
   var p, b;
   var mouseX, mouseY, mousePVec, isMouseDown, selectedBody, mouseJoint;
@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
       b2World = Box2D.Dynamics.b2World,
       b2AABB = Box2D.Collision.b2AABB;
   var debugDraw;
+  var p1, p2;
 
   function getBodyAtMouse() {
       mousePVec = new b2Vec2(mouseX, mouseY);
@@ -44,7 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
       game.load.image('ball', 'assets/ball.png');
 
       // player
-      game.load.image('red-player', 'assets/red-player.png');
+      game.load.image('player-1', 'assets/player-1.png');
+      game.load.image('player-2', 'assets/player-2.png');
   }
 
   function create() {
@@ -53,6 +55,12 @@ document.addEventListener('DOMContentLoaded', function () {
           new b2Vec2(0, 0)    // 0 gravity
           ,  true             // allow sleep
       );
+      game.add.sprite(0, 0, 'ground');
+
+      p1 = new Player(game, world, "Marcel");
+      p2 = new Player(game, world, "Bobby");
+      p1.init();
+      p2.init();
 
       canvasPosition = getElementPosition(document.querySelector("canvas"));
 
@@ -72,11 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
           mouseY = (e.clientY - canvasPosition.y) / 30;
       };
 
-      game.add.sprite(0, 0, 'ground');
 
-      p = new Circle(game, game.world.centerX - 50, game.world.centerY - 50, 'red-player', 0.15, world, 0.6, 0.8, 0.6);
-
-      b = new Circle(game, game.world.centerX, game.world.centerY, 'ball', 0.5, world, 0.4, 0.2, 0.4);
+      b = new Circle(game, game.world.centerX, game.world.centerY, 'ball', 0.5, world, 0.5, 0.2, 0.4);
 
       debugDraw = new b2DebugDraw();
       debugDraw.SetSprite(document.querySelector('#debug').getContext('2d'));
@@ -113,7 +118,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
       world.Step(1 / 60, 10, 10);
 
-      p.update();
+      p1.updateTeam();
+      p2.updateTeam();
       b.update();
 
       world.DrawDebugData();
@@ -139,6 +145,10 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       return {x: x, y: y};
+   }
+
+   function render() {
+    game.debug.text("x: " + game.input.mousePointer.x + ", y: " + game.input.mousePointer.y || '--', 20, 70, "#00ff00", "40px Courier");
    }
 
 });
