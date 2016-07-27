@@ -8,8 +8,7 @@
 
     function Circle (game, x, y, phaserImage, scale, world, radius, density, damping, owner) {
         Phaser.Sprite.call(this, game, x, y, phaserImage);
-        this.game = game;
-        this.world = world;
+
         var bodyDef = new b2BodyDef;
         var fixDef = new b2FixtureDef;
 
@@ -36,28 +35,21 @@
         this.inputEnabled = true;
 
         game.add.existing(this);
-    function handleMouseMove(e) {
-          mouseY = (e.clientY - canvasPosition.y) / 30;
-          mouseX = (e.clientX - canvasPosition.x) / 30;
-    };
+    }
+
+    Circle.prototype = Object.create(Phaser.Sprite.prototype);
+    Circle.prototype.constructor = Circle;
 
     Circle.prototype.onClickCircle = function() {
         console.log(a);
         a.bindToCircle(this.image);
     }
 
-    Circle.prototype = Object.create(Phaser.Sprite.prototype);
-    Circle.prototype.constructor = Circle;
-
     Circle.prototype.update = function () {
         var bodyCenter = this.b2Body.GetWorldCenter();
         this.x = bodyCenter.x * 30;
         this.y = bodyCenter.y * 30;
     }
-
-    Circle.prototype.applyForce = function () {
-
-    };
 
     global.Circle = Circle;
 

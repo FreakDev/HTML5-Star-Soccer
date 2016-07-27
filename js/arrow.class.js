@@ -2,7 +2,6 @@
 
     var b2Vec2 = Box2D.Common.Math.b2Vec2
 
-
     function Arrow (game, phaserImage) {
         this.game = game;
 
@@ -19,8 +18,8 @@
 
     Arrow.prototype.bindToCircle = function (circle) {
         this.isDisplayed = true;
-        console.log("X: " + circle.image.position.x, "Y: "+  circle.image.position.y);
-        this.moveArrow(circle.image.position.x, circle.image.position.y);
+        console.log("X: " + circle.position.x, "Y: "+  circle.position.y);
+        this.moveArrow(circle.position.x, circle.position.y);
         console.log(circle);
         this.circle = circle;
     }
@@ -61,7 +60,7 @@
     }
 
     Arrow.prototype.getVector = function (c) {
-        return new b2Vec2((c.body.GetWorldCenter().x - (this.game.input.x / 30)) * 2, (c.body.GetWorldCenter().y - (this.game.input.y / 30)) * 2)
+        return new b2Vec2((c.b2Body.GetWorldCenter().x - (this.game.input.x / 30)) * 2, (c.b2Body.GetWorldCenter().y - (this.game.input.y / 30)) * 2)
     }
 
     Arrow.prototype.update = function () {
@@ -72,8 +71,8 @@
             this.arrow.visible = false;
         }
         if (this.circle !== undefined) {
-        this.circle.image.bringToTop();
-            this.arrow.angle = angle(this.game.input.x - this.circle.image.position.x, this.game.input.y - this.circle.image.position.y, 0,0);
+        this.circle.bringToTop();
+            this.arrow.angle = angle(this.game.input.x - this.circle.position.x, this.game.input.y - this.circle.position.y, 0,0);
             if (dB > 33) {
                 this.arrow.scale.setTo(dB/35, 1);
                 if ((dB/35) > 1.5) {
