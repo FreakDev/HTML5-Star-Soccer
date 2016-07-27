@@ -22,6 +22,8 @@
 
         playerCount += 1;
         this.number = playerCount;
+
+        this.init();
     }
 
     Player.prototype.init = function () {
@@ -37,7 +39,7 @@
         for (i = 0; i < 5; i += 1) {
             x = this.number % 2 === 0 ? positions[i].x : this.game.width - positions[i].x;
             y = positions[i].y;
-            circle = new Circle(this.game, x, y, 'player-' + this.number, 0.15, this.world, 0.75, 0.8, 0.6);
+            circle = new Circle(this.game, x, y, 'player-' + this.number, 0.15, this.world, 0.75, 0.8, 0.6, this);
             this.circles.push(circle);
         }
     };
