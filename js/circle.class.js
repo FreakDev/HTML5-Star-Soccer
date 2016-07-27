@@ -8,7 +8,8 @@
 
 
     function Circle (game, x, y, phaserImage, scale, world, radius, density, damping) {
-
+        this.game = game;
+        this.world = world;
         var bodyDef = new b2BodyDef;
         var fixDef = new b2FixtureDef;
 
@@ -31,7 +32,16 @@
         this.image = game.add.sprite(x, y, phaserImage);
         this.image.anchor.setTo(0.5, 0.5);
         this.image.scale.set(scale, scale);
+    }
 
+    function handleMouseMove(e) {
+          mouseX = (e.clientX - canvasPosition.x) / 30;
+          mouseY = (e.clientY - canvasPosition.y) / 30;
+    };
+
+    Circle.prototype.onClickCircle = function() {
+        a.bindToCircle(this.image);
+        console.log(a);
     }
 
     Circle.prototype.update = function () {

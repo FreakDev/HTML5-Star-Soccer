@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var world, game = new Phaser.Game(640, 480, Phaser.AUTO, "c", { preload: preload, create: create, update: update, render: render });
 
-  var p, b;
+  var p, b, a;
   var mouseX, mouseY, mousePVec, isMouseDown, selectedBody, mouseJoint;
   var canvasPosition;
   var b2Vec2 = Box2D.Common.Math.b2Vec2,
@@ -47,6 +47,9 @@ document.addEventListener('DOMContentLoaded', function () {
       // player
       game.load.image('player-1', 'assets/player-1.png');
       game.load.image('player-2', 'assets/player-2.png');
+
+      // arrow
+      game.load.image('arrow-indactor', 'assets/arrow.png');
   }
 
   function create() {
@@ -62,16 +65,24 @@ document.addEventListener('DOMContentLoaded', function () {
       p1.init();
       p2.init();
 
+      p = new Circle(game, game.world.centerX - 50, game.world.centerY - 50, 'player-1', 0.15, world, 0.6, 0.8, 0.6);
+      a = new Arrow(game, 'arrow-indactor');
+
       canvasPosition = getElementPosition(document.querySelector("canvas"));
+      // p.image.events.onInputDown.add(function () { console.log("toto") } );
+
+      game.input.onDown.add(a.bindToCircle.bind(a, p1.circles[1]))
+
+      game.input.onUp.add(fire.bind(this, p1.circles[1]))
 
       document.addEventListener("mousedown", function(e) {
           isMouseDown = true;
           handleMouseMove(e);
-          document.addEventListener("mousemove", handleMouseMove, true);
+          // document.addEventListener("mousemove", handleMouseMove, true);
       }, true);
 
       document.addEventListener("mouseup", function() {
-          document.removeEventListener("mousemove", handleMouseMove, true);
+          // document.removeEventListener("mousemove", handleMouseMove, true);
           isMouseDown = false;
       }, true);
 
@@ -79,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function () {
           mouseX = (e.clientX - canvasPosition.x) / 30;
           mouseY = (e.clientY - canvasPosition.y) / 30;
       };
-
 
       b = new Circle(game, game.world.centerX, game.world.centerY, 'ball', 0.5, world, 0.5, 0.2, 0.4);
 
@@ -92,35 +102,50 @@ document.addEventListener('DOMContentLoaded', function () {
       world.SetDebugDraw(debugDraw);
   }
 
+  function fire(c) {
+
+    getBodyAtMouse()
+
+    // c.applyForce(angle, force)
+    var bodyCenter = selectedBody.GetWorldCenter();
+    selectedBody.ApplyImpulse(a.getVector(c), bodyCenter)
+
+
+    a.hide();
+
+  }
+
   function update() {
 
       // var ctxt = game.context;
 
-      if(isMouseDown && (!mouseJoint)) {
-         var body = getBodyAtMouse();
-         if(body) {
-            mouseJoint = true;
-         }
-      }
-
-      if(mouseJoint) {
-         if(isMouseDown) {
-         } else {
-            if (selectedBody) {
-               var bodyCenter = selectedBody.GetWorldCenter();
-               selectedBody.ApplyImpulse(new b2Vec2((bodyCenter.x - mouseX) * 2, (bodyCenter.y - mouseY) * 2), bodyCenter)
-               mouseX = undefined;
-               mouseY = undefined;
-               mouseJoint = false;
-            }
-         }
-      }
+      // if(isMouseDown && (!mouseJoint)) {
+      //    var body = getBodyAtMouse();
+      //    if(body) {
+      //       mouseJoint = true;
+      //    }
+      // }
+      // console.log(this.arrow.getAngle());
+      // if(mouseJoint) {
+      //    if(isMouseDown) {
+      //    } else {
+      //       if (selectedBody) {
+      //          var bodyCenter = selectedBody.GetWorldCenter();
+      //          selectedBody.ApplyImpulse(new b2Vec2((bodyCenter.x - mouseX) * 2, (bodyCenter.y - mouseY) * 2), bodyCenter)
+      //          mouseX = undefined;
+      //          mouseY = undefined;
+      //          mouseJoint = false;
+      //       }
+      //    }
+      // }
 
       world.Step(1 / 60, 10, 10);
 
       p1.updateTeam();
       p2.updateTeam();
+      p.update();
       b.update();
+      a.update();
 
       world.DrawDebugData();
       world.ClearForces();
@@ -148,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function () {
    }
 
    function render() {
-    game.debug.text("x: " + game.input.mousePointer.x + ", y: " + game.input.mousePointer.y || '--', 20, 70, "#00ff00", "40px Courier");
+    game.debug.text("x: " + game.input.x + ", y: " + game.input.y || '--', 20, 70, "#00ff00", "40px Courier");
    }
 
 });
