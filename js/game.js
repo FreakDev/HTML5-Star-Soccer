@@ -97,10 +97,10 @@ document.addEventListener('DOMContentLoaded', function () {
       game.input.onDown.add(a.bindToCircle.bind(a, p1.circles[1]))
       game.input.onUp.add(fire.bind(this, p1.circles[1]))
 
-      document.addEventListener("mouseup", function() {
-          document.removeEventListener("mousemove", handleMouseMove, true);
-          isMouseDown = false;
-      }, true);
+      // document.addEventListener("mouseup", function() {
+      //     document.removeEventListener("mousemove", handleMouseMove, true);
+      //     isMouseDown = false;
+      // }, true);
 
       // function handleMouseMove(e) {
       //     mouseX = (e.clientX - canvasPosition.x) / 30;
@@ -174,7 +174,14 @@ document.addEventListener('DOMContentLoaded', function () {
             if (selectedBody) {
          } else {
                var bodyCenter = selectedBody.GetWorldCenter();
-      if(mouseJoint) {
+               selectedBody.ApplyImpulse(new b2Vec2((bodyCenter.x - mouseX / 30) * 2, (bodyCenter.y - mouseY / 30) * 2), bodyCenter)
+               mouseX = undefined;
+               mouseY = undefined;
+               mouseJoint = false;
+            }
+         }
+      }
+
       world.Step(1 / 60, 10, 10);
 
       b.update();
