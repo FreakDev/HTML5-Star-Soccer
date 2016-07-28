@@ -50,22 +50,42 @@ document.addEventListener('DOMContentLoaded', function () {
        bodyDef.type = b2Body.b2_staticBody;
        fixDef.shape = new b2PolygonShape;
 
-       fixDef.shape.SetAsBox(20, 2);
+       fixDef.shape.SetAsBox(11, 0.2);
        // HAUT
-       bodyDef.position.Set(10, -1.8);
+       bodyDef.position.Set(11, 0);
        world.CreateBody(bodyDef).CreateFixture(fixDef);
        // BAS
-       bodyDef.position.Set(10, 456 / 30 + 1.8);
+       bodyDef.position.Set(11, 15.2);
        world.CreateBody(bodyDef).CreateFixture(fixDef);
 
-       fixDef.shape.SetAsBox(2, 14);
-       // GAUCHE
-       bodyDef.position.Set(-1.2, 13);
+       fixDef.shape.SetAsBox(0.3, 3);
+       // Gauche HAUT
+       bodyDef.position.Set(0.5, 3.2);
        world.CreateBody(bodyDef).CreateFixture(fixDef);
-       // DROITE
-       bodyDef.position.Set(22.5, 13);
+       // GAUCHE BAS
+       bodyDef.position.Set(0.5, 12);
        world.CreateBody(bodyDef).CreateFixture(fixDef);
 
+       // // DROITE HAUT
+       bodyDef.position.Set(20.7, 3.2);
+       world.CreateBody(bodyDef).CreateFixture(fixDef);
+       // // DROITE BAS
+       bodyDef.position.Set(20.7, 12);
+       world.CreateBody(bodyDef).CreateFixture(fixDef);
+
+       var butDef = new b2FixtureDef;
+       butDef.isSensor = true;
+       butDef.shape = new b2PolygonShape;
+
+       //BUT DROIT
+       butDef.shape.SetAsBox(0.3,1.3);
+       bodyDef.position.Set(20.7, 7.6);
+       world.CreateBody(bodyDef).CreateFixture(butDef);
+
+       //BUT GAUCHE
+       butDef.shape.SetAsBox(0.3,1.3);
+       bodyDef.position.Set(0.5, 7.6);
+       world.CreateBody(bodyDef).CreateFixture(butDef);
 
       game.add.sprite(0, 0, 'ground');
 
