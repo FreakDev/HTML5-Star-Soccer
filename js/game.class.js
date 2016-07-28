@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-  var world, game = new Phaser.Game(640, 480, Phaser.AUTO, "c", { preload: preload, create: create, update: update, render: render });
+  var world, game = new Phaser.Game(640, 480, Phaser.AUTO, "canvas", { preload: preload, create: create, update: update, render: render });
 
   var p, b, a;
   var mouseX, mouseY, mousePVec, isMouseDown, selectedBody, mouseJoint;
