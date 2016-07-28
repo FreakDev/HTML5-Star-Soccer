@@ -41,7 +41,6 @@
     Circle.prototype.constructor = Circle;
 
     Circle.prototype.onClickCircle = function() {
-        console.log(a);
         a.bindToCircle(this.image);
     }
 

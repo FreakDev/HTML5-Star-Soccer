@@ -28,7 +28,6 @@
 
     Player.prototype.init = function () {
         this.prepareTeam();
-        console.log("On init le joueur " + this.name);
     };
 
     Player.prototype.prepareTeam = function () {

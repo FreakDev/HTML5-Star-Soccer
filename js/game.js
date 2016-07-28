@@ -43,9 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
       a = new Arrow(game, 'arrow-indactor');
       b = new Circle(game, game.world.centerX, game.world.centerY, 'ball', 0.5, world, 0.5, 0.2, 0.4);
 
-      game.input.onDown.add(a.bindToCircle.bind(a, p1.circles[1]))
-      game.input.onUp.add(fire.bind(this, p1.circles[1]))
-
       function handleMouseMove(e) {
           mouseX = e.x;
           mouseY = e.y;
@@ -59,13 +56,15 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedBody = selectedCircle.b2Body;
 
         game.input.addMoveCallback(handleMouseMove);
+
+        a.bindToCircle(selectedCircle);
       });
 
       game.input.onUp.add(function (e) {
         isMouseDown = false;
         game.input.deleteMoveCallback(handleMouseMove);
+        fire(selectedCircle);
       });
-
 
       debugDraw = new b2DebugDraw();
       debugDraw.SetSprite(document.querySelector('#debug').getContext('2d'));

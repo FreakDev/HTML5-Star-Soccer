@@ -18,9 +18,7 @@
 
     Arrow.prototype.bindToCircle = function (circle) {
         this.isDisplayed = true;
-        console.log("X: " + circle.position.x, "Y: "+  circle.position.y);
         this.moveArrow(circle.position.x, circle.position.y);
-        console.log(circle);
         this.circle = circle;
     }
 
