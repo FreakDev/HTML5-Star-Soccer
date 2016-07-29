@@ -1,0 +1,23 @@
+{
+  "name": "HTML5-Star-Soccer",
+  "homepage": "https://github.com/Extellion/HTML5-Star-Soccer",
+  "authors": [
+    "FreakDev",
+    "Extellion <allan.guichard@epitech.eu>",
+    "laidet_r <rodolphe.laidet@epitech.eu>"
+  ],
+  "description": "Une adaptation de Soccer Stars en HTML5 avec Phaser.JS et Box2D",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "phaser": "^2.6.1",
+    "box2dweb": "*"
+  }
+}
